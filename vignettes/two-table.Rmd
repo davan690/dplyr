@@ -33,11 +33,16 @@ This discussion assumes that you have [tidy data](http://www.jstatsoft.org/v59/i
 ...goes below here...
 
 # Using `_join`
-All two-table verbs work similarly. The first two arguments are `x` and `y`, and provide the tables to combine. The output is always a new table with the same type as `x`.
+
+All two-table verbs in `dplyr :: _join(...)` work similarly. The first two arguments are `x` and `y`, and provide the tables to combine. The output is always a new table with the same type as `x`.
 
 ## Mutating joins
 
-Mutating joins allow you to combine variables from multiple tables. For example, take the nycflights13 data. In one table we have flight information with an abbreviation for carrier, and in another we have a mapping between abbreviations and full names. You can use a join to add the carrier names to the flight data:
+Mutating joins allow you to combine variables from multiple tables. For example, take the nycflights13 data. In one table we have flight information with an abbreviation for carrier (`flights`), and in another we have a mapping between abbreviations and full names (`airlines`). 
+
+You can use a join to add the carrier names to the flight data...
+
+## From the left:
 
 ```{r, warning = FALSE}
 library("nycflights13")
@@ -47,6 +52,40 @@ flights2 <- flights %>% select(year:day, hour, origin, dest, tailnum, carrier)
 flights2 %>% 
   left_join(airlines)
 ```
+
+## From the right:
+
+```{r, warning = FALSE}
+library("nycflights13")
+# Drop unimportant variables so it's easier to understand the join results.
+flights2 <- flights %>% select(year:day, hour, origin, dest, tailnum, carrier)
+
+flights2 %>% 
+  right_join(airlines)
+```
+
+## From all around
+
+```{r, warning = FALSE}
+library("nycflights13")
+# Drop unimportant variables so it's easier to understand the join results.
+flights2 <- flights %>% select(year:day, hour, origin, dest, tailnum, carrier)
+
+flights2 %>% 
+  full_join(airlines)
+```
+
+## From just some places:
+
+```{r, warning = FALSE}
+library("nycflights13")
+# Drop unimportant variables so it's easier to understand the join results.
+flights2 <- flights %>% select(year:day, hour, origin, dest, tailnum, carrier)
+
+flights2 %>% 
+  semi_join(airlines)
+```
+
 
 ### Controlling how the tables are matched
 
